@@ -207,3 +207,6 @@ aux = calculate_recall_success_nr(manager, nr2, T_recall, T_cue, debug=True, rem
 s, timings, pattern_sequence = aux
 plot_network_activity_angle(manager)
 plt.show()
+
+
+pau = 0
