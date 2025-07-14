@@ -104,3 +104,4 @@ ENV/
 .idea/workspace.xml
 .idea/workspace.xml
 .idea/BCPNN_sequences.iml
+/.idea
