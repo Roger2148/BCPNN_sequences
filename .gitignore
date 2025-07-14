@@ -100,3 +100,7 @@ ENV/
 # mypy
 .mypy_cache/
 .DS_Store
+.idea/BCPNN_sequences.iml
+.idea/workspace.xml
+.idea/workspace.xml
+.idea/BCPNN_sequences.iml
