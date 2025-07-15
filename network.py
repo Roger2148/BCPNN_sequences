@@ -18,9 +18,9 @@ class BCPNNPerfect:
         # Initial values are taken from the paper on memory by Marklund and Lansner also from Phil's paper
 
         # Random number generator
-        self.prng = prng
-        self.sigma = sigma
-        self.epsilon = epsilon
+        self.prng = prng # np.random.RandomState()
+        self.sigma = sigma # Standard deviation of the noise (default 0.0)
+        self.epsilon = epsilon # The probability bound (Thesis section 3.4.1)
         self.always_learning = always_learning
         self.normalized_current = True
 
@@ -30,50 +30,50 @@ class BCPNNPerfect:
 
         self.n_units = self.hypercolumns * self.minicolumns
 
-        self.diagonal_zero = diagonal_zero
-        self.z_transfer = z_transfer
-        self.strict_maximum = strict_maximum
-        self.perfect = perfect
+        self.diagonal_zero = diagonal_zero # (default = False)
+        self.z_transfer = z_transfer # (default = False)
+        self.strict_maximum = strict_maximum # (default = True)
+        self.perfect = perfect # (default = False)
 
         # Connectivity
-        self.beta = beta
-        self.w = w
+        self.beta = beta # (default = None)
+        self.w = w # (default = None)
 
         #  Dynamic Parameters
-        self.G = G
-        self.tau_m = tau_m
-        self.tau_z_pre = tau_z_pre
-        self.tau_z_post = tau_z_post
-        self.tau_z_pre_ampa = tau_z_pre_ampa
-        self.tau_z_post_ampa = tau_z_post_ampa
-        self.tau_p = tau_p
-        self.tau_a = tau_a
-        self.g_a = g_a
-        self.g_w = g_w
-        self.g_w_ampa = g_w_ampa
-        self.g_beta = g_beta
-        self.g_I = g_I
+        self.G = G # (default = 1.0)
+        self.tau_m = tau_m # (default = 0.020)
+        self.tau_z_pre = tau_z_pre # pre-synaptic z-traces (default = 0.150)
+        self.tau_z_post = tau_z_post # post-synaptic z-traces (default = 0.005)
+        self.tau_z_pre_ampa = tau_z_pre_ampa # (default = 0.025)
+        self.tau_z_post_ampa = tau_z_post_ampa # (default = 0.025)
+        self.tau_p = tau_p # p-traces (default = 10.0)
+        self.tau_a = tau_a # adaptation (default = 0.25)
+        self.g_a = g_a # adaptation gain (default = 1.0)
+        self.g_w = g_w # (default = 0.0)
+        self.g_w_ampa = g_w_ampa # (default = 1.0)
+        self.g_beta = g_beta # (default = 0.0)
+        self.g_I = g_I # external input gain ?? (default = 10.0)
 
-        self.k = k
-        self.tau_k = tau_k
+        self.k = k # (default = 0.0)
+        self.tau_k = tau_k # (default = 0.01)
         self.k_d = 0
-        self.k_perfect = k_perfect
+        self.k_perfect = k_perfect # (default = True)
 
-        self.p = p
+        self.p = p # (default = 1.0)
 
         # State variables
         self.o = np.ones(self.n_units) * (1.0 / self.minicolumns)
         self.s = np.zeros(self.n_units)
-        self.beta = np.log(np.ones_like(self.o) * (1.0 / self.minicolumns))
+        self.beta = np.log(np.ones_like(self.o) * (1.0 / self.minicolumns)) # beta = log(Pr(x) and here the probability is uniform.
 
         # NMDA values
         self.i_nmda = np.zeros(self.n_units)
-        self.z_pre = np.zeros(self.n_units) * 1.0 / self.minicolumns
-        self.z_post = np.zeros(self.n_units) * 1.0 / self.minicolumns
-        self.z_co = np.zeros((self.n_units, self.n_units)) * 1.0 / (self.minicolumns ** 2)
-        self.p_pre = np.ones(self.n_units) * 1.0 / self.minicolumns
-        self.p_post = np.ones(self.n_units) * 1.0 / self.minicolumns
-        self.p_co = np.ones((self.n_units, self.n_units)) * 1.0 / (self.minicolumns ** 2)
+        self.z_pre = np.zeros(self.n_units) * 1.0 / self.minicolumns # Pre-synaptic z-traces
+        self.z_post = np.zeros(self.n_units) * 1.0 / self.minicolumns # Post-synaptic z-traces
+        self.z_co = np.zeros((self.n_units, self.n_units)) * 1.0 / (self.minicolumns ** 2) # Co-synaptic z-traces ?
+        self.p_pre = np.ones(self.n_units) * 1.0 / self.minicolumns # Pre-synaptic p-traces
+        self.p_post = np.ones(self.n_units) * 1.0 / self.minicolumns # Post-synaptic p-traces
+        self.p_co = np.ones((self.n_units, self.n_units)) * 1.0 / (self.minicolumns ** 2) # Co-synaptic p-traces
         self.w = np.zeros((self.n_units, self.n_units))
 
         # Ampa values
@@ -87,9 +87,9 @@ class BCPNNPerfect:
         self.w_ampa = np.zeros((self.n_units, self.n_units))
 
         # Set the adaptation to zeros by default
-        self.a = np.zeros_like(self.o)
+        self.a = np.zeros_like(self.o) # Adaptation variable, fatigue, etc.
         # Set the clamping to zero by default
-        self.I = np.zeros_like(self.o)
+        self.I = np.zeros_like(self.o) # External input current
 
     def get_parameters(self):
         """

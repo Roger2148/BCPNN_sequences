@@ -346,8 +346,21 @@ def create_weights_from_overlap_protocol(nn, dt, n_patterns, s, r, mixed_start, 
 
 
 def produce_overlaped_sequences(minicolumns, hypercolumns, n_patterns, s, r, mixed_start=False, contiguous=True):
-    n_r = int(r * n_patterns / 2)
-    n_s = int(s * hypercolumns)
+    """
+    Produce two sequences of patterns that overlap in a certain number of patterns.
+    :param minicolumns: number of minicolumns
+    :param hypercolumns: number of hypercolumns
+    :param n_patterns: number of patterns in the sequences
+    :param s: number of minicolumns in the hypercolumns that overlap
+    :param r: number of patterns that overlap
+    :param mixed_start: if True, the sequences start at the same time
+    :param contiguous: if True, the overlapping patterns are contiguous
+    :return: two sequences of patterns that overlap in a certain number of patterns
+    """
+
+
+    n_r = int(r * n_patterns / 2) # the location of patterns that overlap but indicated by percentage
+    n_s = int(s * hypercolumns) # indexing to a specific hypercolumn
     n_size = int(n_patterns / 2)
 
     matrix = create_orthogonal_canonical_representation(minicolumns, hypercolumns)[:n_patterns]
